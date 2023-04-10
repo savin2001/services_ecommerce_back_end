@@ -19,3 +19,9 @@ Web Design, Graphic Design, and Web Content Writing:
 The web design, graphic design, and web content writing services will be provided in-house by the company. The backend of the site will need to be integrated with a project management system to manage the projects for these services. The project management system will allow customers to submit their requirements and communicate with the company's designers and writers.
 
 Overall, this architecture will provide a solid foundation for the site that sells web design, graphic design, web content writing, computer hardware, and cybersecurity testing services. By following best practices for security and compliance, the site can ensure that customer data is protected and transactions are processed securely.
+
+// router.get('/web_design', webDesignController.getAllWebDesignServices);
+//     router.get('/web_design/:id', webDesignController.getWebDesignServiceById);
+//     router.post('/web_design/post', webDesignController.createWebDesignService);
+//     router.put('/web_design/update/:id', webDesignController.updateWebDesignService);
+//     router.delete('/web_design/delete:id', webDesignController.deleteWebDesignService);
