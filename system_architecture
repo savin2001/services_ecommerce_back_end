@@ -1,10 +1,10 @@
 Sure! Here is an example architecture for a site that sells web design, graphic design, web content writing, computer hardware, and cybersecurity testing services:
 
 Frontend:
-The frontend will be responsible for displaying the services that the site offers and providing a way for users to browse and purchase them. It will also provide a user interface for managing user accounts, storing user preferences and order history, and allowing users to communicate with the company's support team. The frontend could be built using React.js or any other modern frontend framework.
+The frontend will be responsible for displaying the services that the site offers and providing a way for customers to browse and purchase them. It will also provide a customer interface for managing customer accounts, storing customer preferences and order history, and allowing customers to communicate with the company's support team. The frontend could be built using React.js or any other modern frontend framework.
 
 Backend:
-The backend will be responsible for managing the site's data and business logic. This includes handling user authentication, managing product inventory and pricing, processing payments, and integrating with third-party services like the payment gateway, email provider, and shipping provider. The backend could be built using Node.js or any other backend framework.
+The backend will be responsible for managing the site's data and business logic. This includes handling customer authentication, managing product inventory and pricing, processing payments, and integrating with third-party services like the payment gateway, email provider, and shipping provider. The backend could be built using Node.js or any other backend framework.
 
 Payment Gateway:
 A payment gateway will be integrated into the site to allow customers to securely make payments for the services they purchase. Stripe is a popular payment gateway that provides a suite of APIs and tools to securely handle payments. The payment gateway will be integrated with the backend of the site.
@@ -20,8 +20,24 @@ The web design, graphic design, and web content writing services will be provide
 
 Overall, this architecture will provide a solid foundation for the site that sells web design, graphic design, web content writing, computer hardware, and cybersecurity testing services. By following best practices for security and compliance, the site can ensure that customer data is protected and transactions are processed securely.
 
-// router.get('/web_design', webDesignController.getAllWebDesignServices);
-//     router.get('/web_design/:id', webDesignController.getWebDesignServiceById);
-//     router.post('/web_design/post', webDesignController.createWebDesignService);
-//     router.put('/web_design/update/:id', webDesignController.updateWebDesignService);
-//     router.delete('/web_design/delete:id', webDesignController.deleteWebDesignService);
+
+
+
+
+
+
+
+
+
+Create a new file called customers.js in the routes directory. This file will contain our routes for customer authentication.
+In customers.js, define the following routes:
+POST /customers/register: This route will handle customer registration. It will accept a JSON payload containing the customer's name, email, phone and password. We'll hash the password using a library like bcrypt before storing it in the database. If the registration is successful, we'll generate a JWT and send it back to the client.
+POST /customers/login: This route will handle customer login. It will accept a JSON payload containing the customer's email and password. We'll check if the email and password match a customer in the database, and if so, we'll generate a JWT and send it back to the client.
+POST /customers/logout: This route will handle customer logout. It will simply destroy the customer's JWT, effectively logging them out.
+In the controllers directory, create a new file called customer_controller.js. This file will contain our controller functions for customer authentication.
+In customer_controller.js, define the following functions:
+register_customer(connection): This function will handle customer registration. It will accept a request object and a database connection object as parameters. It will extract the customer's name, email, and password from the request body, hash the password using bcrypt, and insert the customer's information into the customers table. If the insertion is successful, it will generate a JWT and send it back to the client.
+login_customer(connection): This function will handle customer login. It will accept a request object and a database connection object as parameters. It will extract the customer's email and password from the request body, check if they match a customer in the customers table, and if so, it will generate a JWT and send it back to the client.
+logout_customer(connection): This function will handle customer logout. It will simply destroy the customer's JWT.
+In web_design.js and orders.js, we'll need to modify our existing routes to include middleware that checks if the request is authenticated. We'll do this by adding a new function to our middleware stack that verifies the JWT included in the request header. If the JWT is valid, we'll call next() to pass control to the next middleware function. If the JWT is not valid, we'll send an error response.
+We'll also need to modify our database schema to include a new customers table. This table should contain columns for id (an auto

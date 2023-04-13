@@ -8,15 +8,16 @@ const {
     deleteWebDesignServiceController
 } = require('../controllers/web_design_controller');
 
-function initRouter(connection) {
+function webDesignRouter(connection) {
     
-    router.get('/web-design', getAllWebDesignController(connection));
-    router.get('/web-design/:id', getWebDesignServiceByIdController(connection));
-    router.post('/web-design/post', postWebDesignServiceController(connection));
-    router.put('/web-design/update/:id', updateWebDesignServiceController(connection));
-    router.delete('/web-design/delete/:id', deleteWebDesignServiceController(connection));
+    router.get('/', getAllWebDesignController(connection));
+    router.get('/:id', getWebDesignServiceByIdController(connection));
+    router.post('/post', postWebDesignServiceController(connection));
+    router.put('/update/:id', updateWebDesignServiceController(connection));
+    router.delete('/delete/:id', deleteWebDesignServiceController(connection));
 
+    console.log('Web design running')
     return router;
 }
 
-module.exports = initRouter;
+module.exports = webDesignRouter;

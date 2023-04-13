@@ -1,8 +1,30 @@
+// require('dotenv').config();
+// const express = require('express');
+// const app = express();
+// const bodyParser = require('body-parser');
+// const ordersRouter = require('./routes/index');
+
+// // Parse incoming JSON requests
+// app.use(bodyParser.json());
+
+// // Parse incoming urlencoded requests
+// app.use(bodyParser.urlencoded({
+//     extended: true
+// }));
+
+// app.use('/', ordersRouter);
+
+// const port = process.env.SERVER_PORT;
+// app.listen(port, () => {
+//     console.log('Server is running on port ', port);
+// });
+
+
 require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const webDesignRouter = require('./routes/index');
+const router = require('./routes/index');
 
 // Parse incoming JSON requests
 app.use(bodyParser.json());
@@ -12,9 +34,33 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use('/', webDesignRouter);
+app.use('/', router);
 
-const port = process.env.SERVER_PORT;
+const port = process.env.SERVER_PORT || 4000;
 app.listen(port, () => {
     console.log('Server is running on port ', port);
 });
+
+
+
+
+// const express = require('express');
+// const app = express();
+// const bodyParser = require('body-parser');
+// const router = require('./routes/index');
+
+// // Parse incoming JSON requests
+// app.use(bodyParser.json());
+
+// // Parse incoming urlencoded requests
+// app.use(bodyParser.urlencoded({
+//     extended: true
+// }));
+
+// app.use('/orders', orderRouter);
+// app.use('/', webDesignRouter);
+
+// const port = process.env.SERVER_PORT;
+// app.listen(port, () => {
+//     console.log('Server is running on port ', port);
+// });
