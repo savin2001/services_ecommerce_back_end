@@ -9,7 +9,7 @@ const {
 } = require('../controllers/order_controller');
 
 function ordersRouter(connection) {
-    
+
     router.get('/', getAllOrderController(connection));
     router.get('/:id', getOrderServiceByIdController(connection));
     router.post('/post', postOrderServiceController(connection));
