@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const uuid = require('uuid');
-const pool = require('../mysql_connection/index');
+const connection = require('../mysql_connection/index');
 
 function registerCustomer(customerData) {
     return new Promise((resolve, reject) => {
@@ -19,7 +19,7 @@ function registerCustomer(customerData) {
             }
             const customerId = uuid.v4();
             const insertQuery = 'INSERT INTO customers (customer_id, customer_name, customer_email, customer_phone, customer_password) VALUES (?, ?, ?, ?, ?)';
-            pool.query(insertQuery, [customerId, customer_name, customer_email, customer_phone, hash], (error) => {
+            connection.query(insertQuery, [customerId, customer_name, customer_email, customer_phone, hash], (error) => {
                 if (error) {
                     reject(error);
                     return;
@@ -40,7 +40,7 @@ function loginCustomer(credentials) {
             customer_password
         } = credentials;
         const selectQuery = 'SELECT * FROM customers WHERE customer_email = ?';
-        pool.query(selectQuery, [customer_email], (err, results) => {
+        connection.query(selectQuery, [customer_email], (err, results) => {
             if (err) {
                 reject(err);
                 return;

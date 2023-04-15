@@ -1,6 +1,6 @@
-const getAllWebDesignServices = async (connection) => {
+const getAllProductServices = async (connection) => {
   return new Promise((resolve, reject) => {
-    const query = 'SELECT * FROM web_design';
+    const query = 'SELECT * FROM products';
     connection.query(query, (error, results, fields) => {
       if (error) {
         reject(error);
@@ -8,13 +8,13 @@ const getAllWebDesignServices = async (connection) => {
         resolve(results);
       }
     });
-    console.log('web-design service running')
+    console.log('products service running')
   });
 };
 
-const getWebDesignServiceById = async (connection, serviceId) => {
+const getProductServiceById = async (connection, serviceId) => {
   return new Promise((resolve, reject) => {
-    const query = 'SELECT * FROM web_design WHERE id = ?';
+    const query = 'SELECT * FROM products WHERE product_id = ?';
     connection.query(query, [serviceId], (error, results, fields) => {
       if (error) {
         reject(error);
@@ -22,13 +22,13 @@ const getWebDesignServiceById = async (connection, serviceId) => {
         resolve(results[0]);
       }
     });
-    console.log('web-design service running')
+    console.log('products service running')
   });
 };
 
-const postWebDesignService = async (connection, service) => {
+const postProductService = async (connection, service) => {
   return new Promise((resolve, reject) => {
-    const query = 'INSERT INTO web_design SET ?';
+    const query = 'INSERT INTO products SET ?';
     connection.query(query, service, (error, results, fields) => {
       if (error) {
         reject(error);
@@ -36,13 +36,13 @@ const postWebDesignService = async (connection, service) => {
         resolve(results);
       }
     });
-    console.log('web-design service running')
+    console.log('products service running')
   });
 };
 
-const updateWebDesignService = async (connection, serviceId, updatedService) => {
+const updateProductService = async (connection, serviceId, updatedService) => {
   return new Promise((resolve, reject) => {
-    const query = 'UPDATE web_design SET ? WHERE id = ?';
+    const query = 'UPDATE products SET ? WHERE product_id = ?';
     connection.query(query, [updatedService, serviceId], (error, results, fields) => {
       if (error) {
         reject(error);
@@ -50,13 +50,13 @@ const updateWebDesignService = async (connection, serviceId, updatedService) => 
         resolve(results);
       }
     });
-    console.log('web-design service running')
+    console.log('products service running')
   });
 };
 
-const deleteWebDesignService = async (connection, serviceId) => {
+const deleteProductService = async (connection, serviceId) => {
   return new Promise((resolve, reject) => {
-    const query = 'DELETE FROM web_design WHERE id = ?';
+    const query = 'DELETE FROM products WHERE product_id = ?';
     connection.query(query, serviceId, (error, results, fields) => {
       if (error) {
         reject(error);
@@ -64,14 +64,14 @@ const deleteWebDesignService = async (connection, serviceId) => {
         resolve(results);
       }
     });
-    console.log('web-design service running')
+    console.log('products service running')
   });
 };
 
 module.exports = {
-  getAllWebDesignServices,
-  getWebDesignServiceById,
-  postWebDesignService,
-  updateWebDesignService,
-  deleteWebDesignService
+  getAllProductServices,
+  getProductServiceById,
+  postProductService,
+  updateProductService,
+  deleteProductService
 };

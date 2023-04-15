@@ -29,15 +29,95 @@ Overall, this architecture will provide a solid foundation for the site that sel
 
 
 
-Create a new file called customers.js in the routes directory. This file will contain our routes for customer authentication.
-In customers.js, define the following routes:
-POST /customers/register: This route will handle customer registration. It will accept a JSON payload containing the customer's name, email, phone and password. We'll hash the password using a library like bcrypt before storing it in the database. If the registration is successful, we'll generate a JWT and send it back to the client.
-POST /customers/login: This route will handle customer login. It will accept a JSON payload containing the customer's email and password. We'll check if the email and password match a customer in the database, and if so, we'll generate a JWT and send it back to the client.
-POST /customers/logout: This route will handle customer logout. It will simply destroy the customer's JWT, effectively logging them out.
-In the controllers directory, create a new file called customer_controller.js. This file will contain our controller functions for customer authentication.
-In customer_controller.js, define the following functions:
-register_customer(connection): This function will handle customer registration. It will accept a request object and a database connection object as parameters. It will extract the customer's name, email, and password from the request body, hash the password using bcrypt, and insert the customer's information into the customers table. If the insertion is successful, it will generate a JWT and send it back to the client.
-login_customer(connection): This function will handle customer login. It will accept a request object and a database connection object as parameters. It will extract the customer's email and password from the request body, check if they match a customer in the customers table, and if so, it will generate a JWT and send it back to the client.
-logout_customer(connection): This function will handle customer logout. It will simply destroy the customer's JWT.
-In web_design.js and orders.js, we'll need to modify our existing routes to include middleware that checks if the request is authenticated. We'll do this by adding a new function to our middleware stack that verifies the JWT included in the request header. If the JWT is valid, we'll call next() to pass control to the next middleware function. If the JWT is not valid, we'll send an error response.
-We'll also need to modify our database schema to include a new customers table. This table should contain columns for id (an auto
+Congratulations on completing the ordering section of your ecommerce backend! After this, there are several components that you could work on, depending on the needs of your ecommerce platform. Here are some suggestions:
+
+User authentication: You could implement user authentication to allow customers to create accounts, log in, and manage their account information.
+
+Shopping cart: You could create a shopping cart system that allows customers to add products to their cart and checkout with multiple items at once.
+
+
+Payment gateway integration: You could integrate with a payment gateway to process credit card payments and other types of online payments.
+
+Shipping integration: You could integrate with a shipping provider to allow customers to select shipping options and track their packages.
+
+Order history and management: You could create a system for customers to view their order history, track the status of their orders, and manage their orders (such as cancelling or modifying an order).
+
+Product management: You could create an interface for adding, modifying, and deleting products from your ecommerce platform.
+
+These are just a few ideas to get you started. Ultimately, the next step will depend on the specific needs of your ecommerce platform and the features that you want to offer your customers.
+
+
+
+Define the shopping cart schema:
+
+You can create a shopping_cart table in your database with columns such as cart_id, customer_id, product_id, quantity, price, and total_price.
+cart_id would be a unique identifier for each cart, and customer_id would link the cart to the customer who created it.
+product_id would be the identifier of the product that the customer has added to the cart.
+quantity would be the number of units of the product that the customer has added to the cart.
+price would be the price of a single unit of the product.
+total_price would be the total price of all the units of the product that the customer has added to the cart.
+Create APIs for adding and removing products to/from the cart:
+
+You can create an API endpoint that receives the product_id, quantity, and customer_id as inputs, and adds the product to the cart.
+If the product is already in the cart, the quantity should be updated instead of creating a new row.
+You can also create an API endpoint that receives the product_id and customer_id as inputs, and removes the product from the cart.
+Create an API for retrieving the cart:
+
+You can create an API endpoint that receives the customer_id as input and returns the list of products in the customer's cart.
+Create an API for checking out the cart:
+
+You can create an API endpoint that receives the customer_id as input and checks out the items in the cart.
+This API should create a new order in the orders table, deduct the items from the inventory, and empty the cart.
+Implement session management:
+
+You should associate the customer's cart with their session so that they can continue shopping where they left off if they close their browser or log out and log back in.
+You can use cookies or tokens to manage sessions.
+Validate the inputs:
+
+Make sure to validate the inputs of your APIs to prevent SQL injection attacks and other security vulnerabilities.
+Implement error handling:
+
+Make sure to handle errors gracefully and return informative error messages to the client if something goes wrong.
+
+fetch('/customers/logout', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + token // Replace `token` with the actual token value
+  }
+})
+.then(response => {
+  // Handle response
+})
+.catch(error => {
+  // Handle error
+}
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY5ZDIyMjdlLTZlNzgtNGVhZC05NWZhLWVlYjdkZWYyZDEwZCIsImlhdCI6MTY4MTUzODY3MH0.1TjdA5OaYuWwb2jGV3_5M7SoYwj5fOLLJeMWQFJyumg"
+}
+
+{
+  "customer_id": 1,
+  "product_id": 1,
+  "quantity": 1
+}
+
+
+function register(req, res, next) {
+  registerCustomer(req.body)
+    .then(({ token, customer_id }) => res.json({
+      token,
+      customer_id
+    }))
+    .catch((err) => next(err));
+}
+
+function login(req, res, next) {
+  loginCustomer(req.body)
+    .then(({ token, customer_id }) => res.json({
+      token,
+      customer_id
+    }))
+    .catch((err) => next(err));
+}

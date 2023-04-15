@@ -1,8 +1,8 @@
-const webDesignService = require('../services/web_design_service');
+const productService = require('../services/product_service');
 
-const getAllWebDesignController = (connection) => async (req, res) => {
+const getAllProductController = (connection) => async (req, res) => {
   try {
-    const services = await webDesignService.getAllWebDesignServices(connection);
+    const services = await productService.getAllProductServices(connection);
     res.status(200).json(services);
     console.log('get all controller running')
   } catch (error) {
@@ -13,10 +13,10 @@ const getAllWebDesignController = (connection) => async (req, res) => {
   }
 }
 
-const getWebDesignServiceByIdController = (connection) => async (req, res) => {
+const getProductServiceByIdController = (connection) => async (req, res) => {
   try {
     const serviceId = req.params.id;
-    const service = await webDesignService.getWebDesignServiceById(connection, serviceId);
+    const service = await productService.getProductServiceById(connection, serviceId);
     res.status(200).json(service);
     console.log('get one controller running')
   } catch (error) {
@@ -27,11 +27,11 @@ const getWebDesignServiceByIdController = (connection) => async (req, res) => {
   }
 };
 
-const postWebDesignServiceController = (connection) => async (req, res) => {
+const postProductServiceController = (connection) => async (req, res) => {
   try {
-    const { name, description, price } = req.body;
-    const newService = { name, description, price };
-    const result = await webDesignService.postWebDesignService(connection, newService);
+    const { name, description, category, price, image_url  } = req.body;
+    const newService = {  name, description, category, price, image_url };
+    const result = await productService.postProductService(connection, newService);
     res.status(201).json({
       message: 'Web design service created',
       serviceId: result.insertId
@@ -46,13 +46,13 @@ const postWebDesignServiceController = (connection) => async (req, res) => {
   }
 };
 
-const updateWebDesignServiceController = (connection) => async (req, res) => {
+const updateProductServiceController = (connection) => async (req, res) => {
   try {
     const serviceId = req.params.id;
     console.log('serviceId', serviceId)
-    const { name, description, price } = req.body;
-    const updatedService = { name, description, price };
-    const result = await webDesignService.updateWebDesignService(connection, serviceId, updatedService);
+    const {  name, description, category, price, image_url } = req.body;
+    const updatedService = {  name, description, category, price, image_url };
+    const result = await productService.updateProductService(connection, serviceId, updatedService);
     res.status(200).json({
       message: 'Web design service updated',
       affectedRows: result.affectedRows
@@ -68,10 +68,10 @@ const updateWebDesignServiceController = (connection) => async (req, res) => {
 };
 
 
-const deleteWebDesignServiceController = (connection) => async (req, res) => {
+const deleteProductServiceController = (connection) => async (req, res) => {
   try {
     const serviceId = req.params.id;
-    const result = await webDesignService.deleteWebDesignService(connection, serviceId);
+    const result = await productService.deleteProductService(connection, serviceId);
     res.status(200).json({
       message: 'Web design service deleted',
       affectedRows: result.affectedRows
@@ -86,9 +86,9 @@ const deleteWebDesignServiceController = (connection) => async (req, res) => {
 };
 
 module.exports = {
-  getAllWebDesignController,
-  getWebDesignServiceByIdController,
-  postWebDesignServiceController,
-  updateWebDesignServiceController,
-  deleteWebDesignServiceController
+  getAllProductController,
+  getProductServiceByIdController,
+  postProductServiceController,
+  updateProductServiceController,
+  deleteProductServiceController
 };
